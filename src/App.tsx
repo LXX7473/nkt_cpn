@@ -1,24 +1,25 @@
+/*
+ * @Author: your name
+ * @Date: 2021-01-20 16:13:13
+ * @LastEditTime: 2021-01-20 19:22:42
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /nkt/src/App.tsx
+ */
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Button from './components/Button'
 
 function App() {
+  function say(){
+    console.log('哈哈哈')
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Button size='lg' btnType='danger' onClick={()=>say()}>呵呵</Button>
+      <Button btnType='link' href={'http://www.baidu.com'} > 百度一下~你就知道</Button>
+      <Button size='sm' btnType='primary'>默认按钮</Button>
+      <Button >默认按钮</Button>
+      <Button disabled>被禁用</Button>
     </div>
   );
 }
