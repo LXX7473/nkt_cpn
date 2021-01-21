@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:41:15
- * @LastEditTime: 2021-01-20 19:24:01
+ * @LastEditTime: 2021-01-21 19:00:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /nkt/src/components/Button/index.tsx
@@ -28,7 +28,7 @@ type BtnProps=BaseButtonProps&React.ButtonHTMLAttributes<HTMLElement>
 
 type LinkProps=BaseButtonProps&React.AnchorHTMLAttributes<HTMLElement>
 
-type ButtonProps=Partial<BtnProps&LinkProps>
+export type ButtonProps=Partial<BtnProps&LinkProps>
 
 
 const Button:React.FC<ButtonProps>=({
