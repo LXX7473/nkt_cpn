@@ -1,7 +1,7 @@
 /*
  * @Author: lx 
  * @Date: 2021-01-21 20:08:02
- * @LastEditTime: 2021-01-23 10:36:34
+ * @LastEditTime: 2021-01-26 14:06:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /nkt/src/components/Upload/index.tsx
@@ -15,6 +15,7 @@ interface UploadProps{
     onSuccess?:(data?:any,file?:File)=>void;
     onFail?:(err:any,file:File)=>void,
     onProgress?:(percent:number,file:File)=>void
+    beforeUpload?:()=>boolean|Promise<File>
 }
 
 
@@ -44,11 +45,10 @@ const handleInputUpload=(e:ChangeEvent<HTMLInputElement>)=>{
 
 const uploadFile=(files:FileList)=>{
     let fileList=[...files]
-    console.log('fileList',fileList)
     fileList.forEach(file=>{
         const formData=new FormData();
         formData.append(file.name,file)
-        axios.post(action,file,{
+        axios.post(action,formData,{
             headers:{
                 'Content-Type':'multipart/form-data'
             },

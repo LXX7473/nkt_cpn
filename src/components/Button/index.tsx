@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:41:15
- * @LastEditTime: 2021-01-21 19:00:12
+ * @LastEditTime: 2021-01-26 17:18:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /nkt/src/components/Button/index.tsx
@@ -16,7 +16,9 @@ type BtnType="primary"|"default"|"danger"|'link';
 type Size='lg'|'sm';
 
 interface BaseButtonProps{
+    /** 按钮大小*/
     size?:Size;
+    /** 按钮状态 */
     btnType?:BtnType;
     className?:string;
     disabled?:boolean;
