@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, RenderResult, cleanup } from '@testing-library/react'
 import Menu, { MenuProps } from './Menu';
 
-import MenuItem, { MeunItemProps } from './MenuItem';
+import MenuItem from './MenuItem';
 
 const defaultMenuProps: MenuProps = {
     defaultIndex: '0',

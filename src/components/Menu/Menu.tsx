@@ -1,58 +1,57 @@
-import React, { createContext, useState } from 'react';
+import React, { FC, useState, createContext, CSSProperties } from 'react'
 import classNames from 'classnames'
-import { MeunItemProps } from './MenuItem'
+import { MenuItemProps } from './MenuItem'
+
 type MenuMode = 'horizontal' | 'vertical'
-type onSelectProps = (value: string) => void;
 export interface MenuProps {
-    /**基础样式 */
-    mode?: MenuMode;
-    /**样式类名 */
-    className?: string;
-    /**默认选中项 */
+    /**默认 active 的菜单项的索引值 */
     defaultIndex?: string;
-    /**组件style */
-    style?: React.CSSProperties;
-    /** onSelect回调*/
-    onSelect?: onSelectProps
-    /** 默认展开的子列表*/
+    className?: string;
+    /**菜单类型 横向或者纵向 */
+    mode?: MenuMode;
+    style?: CSSProperties;
+    /**点击菜单项触发的回掉函数 */
+    onSelect?: (selectedIndex: string) => void;
+    /**设置子菜单的默认打开 只在纵向模式下生效 */
     defaultOpenSubMenus?: string[];
 }
-export interface contextProps {
-    index?: string;
-    onSelect?: onSelectProps;
+interface IMenuContext {
+    index: string;
+    onSelect?: (selectedIndex: string) => void;
     mode?: MenuMode;
     defaultOpenSubMenus?: string[];
-
 }
-export const MenuContext = createContext<contextProps>({ index: "0" })
-const Menu: React.FC<MenuProps> = (props) => {
-    let { className, defaultOpenSubMenus, onSelect, style, children, mode, defaultIndex } = props;
-    const [activeIndex, setActiveIndex] = useState(defaultIndex);
 
+export const MenuContext = createContext<IMenuContext>({ index: '0' })
+/**
+ * 为网站提供导航功能的菜单。支持横向纵向两种模式，支持下拉菜单。
+ * ~~~js
+ * import { Menu } from 'vikingship'
+ * ~~~
+ */
+export const Menu: FC<MenuProps> = (props) => {
+    const { className, mode, style, children, defaultIndex, onSelect, defaultOpenSubMenus } = props
+    const [currentActive, setActive] = useState(defaultIndex)
     const classes = classNames('viking-menu', className, {
         'menu-vertical': mode === 'vertical',
         'menu-horizontal': mode !== 'vertical',
     })
-
     const handleClick = (index: string) => {
-        setActiveIndex(index);
+        setActive(index)
         if (onSelect) {
             onSelect(index)
         }
     }
-    const passContext = {
-        index: activeIndex || '0',
+    const passedContext: IMenuContext = {
+        index: currentActive ? currentActive : '0',
         onSelect: handleClick,
         mode,
-        defaultOpenSubMenus
-
+        defaultOpenSubMenus,
     }
-
     const renderChildren = () => {
         return React.Children.map(children, (child, index) => {
-            const childElement = child as React.FunctionComponentElement<MeunItemProps>
-            const { displayName } = childElement.type;
-
+            const childElement = child as React.FunctionComponentElement<MenuItemProps>
+            const { displayName } = childElement.type
             if (displayName === 'MenuItem' || displayName === 'SubMenu') {
                 return React.cloneElement(childElement, {
                     index: index.toString()
@@ -63,8 +62,8 @@ const Menu: React.FC<MenuProps> = (props) => {
         })
     }
     return (
-        <ul style={style} className={classes} data-testid="test-menu">
-            <MenuContext.Provider value={passContext}>
+        <ul className={classes} style={style} data-testid="test-menu">
+            <MenuContext.Provider value={passedContext}>
                 {renderChildren()}
             </MenuContext.Provider>
         </ul>
@@ -75,4 +74,5 @@ Menu.defaultProps = {
     mode: 'horizontal',
     defaultOpenSubMenus: [],
 }
-export default Menu
+
+export default Menu;
